@@ -1,0 +1,150 @@
+import graphe.IGraphe;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class GrapheMAdj implements IGraphe {
+    private int cpt;
+    private int taille;
+    private int[][] matrice;
+    private Map<String, Integer> indices;
+    public GrapheMAdj(String str){
+        taille = 0;
+        matrice = new int[taille][taille];
+        assert this.getSommets().isEmpty();
+        String[] arcs = str.split(",\\s*");
+        cpt = 0;
+        boolean existe;
+        for (String arc : arcs) {
+            String[] elements = arc.trim().split("-");
+            // extrait le noeud source et ote ":" si nécessaire dans le nom
+            String src = elements[0].replaceAll(":", "");
+            ajouterSommet(src);
+            if (elements.length == 1)
+                continue; // pas de destination
+            String target = elements[1];
+            if (!target.isEmpty()) {
+                String dest = target.substring(0, target.indexOf('('));
+                int val = Integer.parseInt(target.substring(target.indexOf('(') + 1, target.indexOf(')')));
+                ajouterSommet(dest);
+                ajouterArc(src, dest, val);
+            }
+        }
+    }
+    @Override
+    public void ajouterSommet(String noeud){
+        indices.put(noeud, cpt);
+        matrice = augmenterTailleMatrice(matrice);
+        ++cpt;
+    }
+    @Override
+    public void ajouterArc(String source, String destination, Integer valeur){
+        matrice[indices.get(source)][indices.get(destination)] = valeur;
+    }
+    @Override
+    public void oterSommet(String noeud){
+        retirerLigneColonne(matrice, indices.get(noeud));
+        indices.remove(noeud);
+        arrangerIndice(indices, indices.get(noeud));
+        --cpt;
+    }
+    @Override
+    public void oterArc(String source, String destination){
+        matrice[indices.get(source).intValue()][indices.get(destination).intValue()] = -1;
+    }
+
+    @Override
+    public List<String> getSommets(){ // pas forcement triee
+        List<String> sommets = new ArrayList<>();
+        for(String sommet : indices.keySet()){
+            sommets.add(sommet);
+        }
+        return sommets;
+    }
+    @Override
+    public List<String> getSucc(String sommet){ // pas forcement triee
+        List<String> successeurs = new ArrayList<>();
+        for (int i = 0; i < matrice.length; i++) {
+            if(matrice[indices.get(sommet).intValue()][i] != -1)
+                successeurs.add(getKey(indices,i));
+        }
+        return successeurs;
+    }
+    @Override
+    public int getValuation(String src, String dest){// les sommets doivent exister, -1 si pas d'arc
+        assert(contientSommet(src) && contientSommet(dest));
+        return matrice[indices.get(src)][indices.get(dest)];
+    }
+    @Override
+    public boolean contientSommet(String sommet){
+        return indices.containsKey(sommet);
+    }
+    @Override
+    public boolean contientArc(String src, String dest){
+        return matrice[indices.get(src)][indices.get(dest)] != -1;
+    }
+
+    public <K, V> K getKey(Map<K, V> map, V value)
+    {
+        for (Map.Entry<K, V> entry: map.entrySet())
+        {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    public int[][] augmenterTailleMatrice(int[][] tableau) {
+        int[][] nouveauTableau = new int[tableau.length + 1][tableau[0].length + 1];
+        for (int i = 0; i < tableau.length; i++) {
+            for (int j = 0; j < tableau[0].length; j++) {
+                nouveauTableau[i][j] = tableau[i][j];
+            }
+        }
+        for (int i = 0; i < tableau.length; i++) {
+            nouveauTableau[i][tableau.length] = -1;
+        }
+        for (int i = 0; i < tableau.length; i++) {
+            nouveauTableau[tableau.length][i] = -1;
+        }
+        return nouveauTableau;
+    }
+
+    public int[][] retirerLigneColonne(int[][] tab, int index) {
+        int[][] resultat = new int[tab.length-1][tab[0].length-1];
+        int indiceLigne = 0;
+        for (int i = 0; i < tab.length; i++) {
+            if (i == index) {
+                continue;
+            }
+            int indiceCol = 0;
+            for (int j = 0; j < tab[0].length; j++) {
+                if (j == index) {
+                    continue;
+                }
+                resultat[indiceLigne][indiceCol] = tab[i][j];
+                indiceCol++;
+            }
+            indiceLigne++;
+        }
+
+        return resultat;
+    }
+
+    public void arrangerIndice(Map<String, Integer> map, int index){
+        for(Integer valeur : map.values()){
+            if(valeur > index)
+                --valeur;
+        }
+    }
+
+    /*
+    for (int i = 0; i < elements.length; i++) {
+                if(!indices.containsKey(elements[i])) {
+                    indices.put(elements[i], cpt);
+                    ++cpt;
+                }
+            }
+     */
+}
