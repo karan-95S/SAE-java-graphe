@@ -6,9 +6,6 @@ public class Arc {
     private final int valuation;
 
     public Arc(String source, String destination, int valuation) {
-        if (valuation < 0) {
-            throw new IllegalArgumentException("La valuation ne peut pas être négative.");
-        }
         this.source = source;
         this.destination = destination;
         this.valuation = valuation;
