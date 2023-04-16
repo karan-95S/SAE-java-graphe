@@ -28,10 +28,10 @@ public class GrapheMAdj extends Graphe{
             int[][] nouvelleMatrice = new int[taille][taille];
             for (int i = 0; i < taille; i++)
                 for (int j = 0; j < taille; j++) {
-                	if (j < taille - 1 && i < taille - 1)
-                		nouvelleMatrice[i][j] = matrice[i][j];
-                	else
-                		nouvelleMatrice[i][j] = VALEUR_INIT;
+                    if (j < taille - 1 && i < taille - 1)
+                	nouvelleMatrice[i][j] = matrice[i][j];
+                    else
+                	nouvelleMatrice[i][j] = VALEUR_INIT;
                 }
             matrice = nouvelleMatrice;
     	}
@@ -44,9 +44,9 @@ public class GrapheMAdj extends Graphe{
         if (contientArc(source, destination))
             throw new IllegalArgumentException("L'arc est deja present");
         if (!contientSommet(source))
-        	ajouterSommet(source);
+            ajouterSommet(source);
         if (!contientSommet(destination))
-        	ajouterSommet(destination);
+            ajouterSommet(destination);
         matrice[indices.get(source)][indices.get(destination)] = valeur;
     }
 
@@ -58,26 +58,26 @@ public class GrapheMAdj extends Graphe{
         int[][] nouvelleMatrice = new int[taille - 1][taille - 1];
         for (int i = 0; i < taille; i++) {
         	if (i == indiceOterSommet)
-        		continue;
+        	    continue;
         	for (int j = 0; j < taille; j++) {
             	if (j == indiceOterSommet)
-            		continue;
+            	    continue;
             	nouvelleMatrice[ligne][colonne++] = matrice[i][j];
             }
-        	ligne++;
-        	colonne = 0;
+            ligne++;
+            colonne = 0;
         }
         matrice = nouvelleMatrice;
         for (String S : getSommets())
-        	if (indices.get(S) > indiceOterSommet)
-        		indices.replace(S, indices.get(S) - 1);
+            if (indices.get(S) > indiceOterSommet)
+        	indices.replace(S, indices.get(S) - 1);
         indices.remove(sommet);
     }
 
     @Override
     public void oterArc(String source, String destination) {
     	if (!contientArc(source, destination))
-        	throw new IllegalArgumentException("n'existe pas");
+            throw new IllegalArgumentException("n'existe pas");
     	matrice[indices.get(source)][indices.get(destination)] = VALEUR_INIT;
     }
 
@@ -90,16 +90,16 @@ public class GrapheMAdj extends Graphe{
     public List<String> getSucc(String sommet) {
         List<String> succ = new ArrayList<String>();
         if (contientSommet(sommet))
-        	for (String S : getSommets())
-        		if (matrice[indices.get(sommet)][indices.get(S)] != VALEUR_INIT)
-        			succ.add(S);
+            for (String S : getSommets())
+        	if (matrice[indices.get(sommet)][indices.get(S)] != VALEUR_INIT)
+        	    succ.add(S);
         return succ;
     }
 
     @Override
     public int getValuation(String src, String dest) {
         if (!contientSommet(src) || !contientSommet(dest))
-        	throw new IllegalArgumentException("n'existe pas");
+            throw new IllegalArgumentException("n'existe pas");
         return matrice[indices.get(src)][indices.get(dest)];
     }
 
