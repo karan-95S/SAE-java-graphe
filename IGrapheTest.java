@@ -80,7 +80,6 @@ class IGrapheTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> g.ajouterArc("A", "B", -1)); // valuation negative
 		
-		// Test de Loic
 		g.oterSommet("D");
 		assertEquals("A-C(2), B-G(3), C-H(2), E-C(1), E-G(3), "
 				+ "E-H(7), F:, G-B(2), G-F(1), H-F(4), H-G(2), "
@@ -109,9 +108,8 @@ class IGrapheTest {
 			testImportation(g);
 	}
 	
-	// Test de Loic
 	@Test
-	void dijkstra() throws FileNotFoundException {
+	void Dijkstra() throws FileNotFoundException {
 		IGraphe g = new GrapheLAdj();
 		Arc a = GraphImporter.importer("graphes/ac/g-100-1.txt", g);
 		Map<String, Integer> dist = new HashMap<String, Integer>();
@@ -134,42 +132,4 @@ class IGrapheTest {
 			assertEquals(expectedList, list);
 		}
 	}
-	
-	// Test de chatGPT (un peut bof)
-	@Test
-    void testDijkstra() {
-        IGraphe graphe = new GrapheLAdj();
-        graphe.ajouterSommet("A");
-        graphe.ajouterSommet("B");
-        graphe.ajouterSommet("C");
-        graphe.ajouterSommet("D");
-        graphe.ajouterSommet("E");
-        graphe.ajouterArc("A", "B", 4);
-        graphe.ajouterArc("A", "C", 2);
-        graphe.ajouterArc("B", "C", 1);
-        graphe.ajouterArc("B", "D", 5);
-        graphe.ajouterArc("C", "D", 8);
-        graphe.ajouterArc("C", "E", 10);
-        graphe.ajouterArc("D", "E", 2);
-        
-        Map<String, Integer> dist = new HashMap<String, Integer>();
-        Map<String, String> pred = new HashMap<String, String>();
-        IGrapheConst.dijkstra(graphe, "A", dist, pred);
-        
-        Map<String, Integer> expectedDist = new HashMap<String, Integer>();
-        expectedDist.put("A", 0);
-        expectedDist.put("B", 4);
-        expectedDist.put("C", 2);
-        expectedDist.put("D", 9);
-        expectedDist.put("E", 11);
-        assertEquals(expectedDist, dist);
-        
-        Map<String, String> expectedPred = new HashMap<String, String>();
-        expectedPred.put("A", null);
-        expectedPred.put("B", "A");
-        expectedPred.put("C", "A");
-        expectedPred.put("D", "B");
-        expectedPred.put("E", "D");
-        assertEquals(expectedPred, pred);
-    }
 }
