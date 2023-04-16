@@ -20,6 +20,7 @@ public class GrapheMAdj extends Graphe{
         peupler(str);
     }
 
+    @Override
     public void ajouterSommet(String noeud) {
     	if (!contientSommet(noeud)) {
             indices.put(noeud, indices.size());
@@ -36,6 +37,7 @@ public class GrapheMAdj extends Graphe{
     	}
     }
 
+    @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
     	if (valeur < 0)
             throw new IllegalArgumentException("valuation negative");
@@ -48,6 +50,7 @@ public class GrapheMAdj extends Graphe{
         matrice[indices.get(source)][indices.get(destination)] = valeur;
     }
 
+    @Override
     public void oterSommet(String sommet) {
     	if(!contientSommet(sommet))
             return;
@@ -71,6 +74,7 @@ public class GrapheMAdj extends Graphe{
         indices.remove(sommet);
     }
 
+    @Override
     public void oterArc(String source, String destination) {
     	if (!contientArc(source, destination))
         	throw new IllegalArgumentException("n'existe pas");
