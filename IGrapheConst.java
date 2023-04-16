@@ -31,20 +31,6 @@ public interface IGrapheConst {
         return String.join(", ", descriptionsArcs);
 	}
 	
-    /* ma méthode toString
-    public String toString() {
-    	StringBuilder sb = new StringBuilder();
-        for (String S : getSommets()) {
-        	List<String> Succ = getSucc(S);
-        	if (Succ.isEmpty())
-    			sb.append(!sb.isEmpty()? ", " + S + ":" : S + ":");
-        	else
-    			for (String succ : Succ)
-        			sb.append(!sb.isEmpty()? ", " + S + "-" + succ + "(" + getValuation(S, succ) + ")": S + "-" + succ + "(" + getValuation(S, succ) + ")");
-        }
-        return sb.toString();
-    }*/
-	
 	public static void dijkstra(IGrapheConst graphe, String source, Map<String, Integer> dist, Map<String, String> pred) {
 		if (!graphe.contientSommet(source))
 			throw new IllegalArgumentException("Le sommet source n'existe pas dans le graphe.");
