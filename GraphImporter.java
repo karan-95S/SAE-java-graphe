@@ -7,11 +7,10 @@ import java.util.Scanner;
 
 public class GraphImporter {
 	public static int importerReponse(String filePath, List<Integer> chemin) throws FileNotFoundException {
-		// comprend pas pourquoi c'est une list de Integer
 		File file = new File(filePath);
 		try (Scanner sc = new Scanner(file)) {
 			if (sc.nextLine().equals("Dijkstra")) {// if pour les chemin inaccessible
-				/* sc.nextLine(); // nom de l'algo recommandé // (ici toujours Dijkstra)*/
+				// sc.nextLine(); nom de l'algo recommandé
 				// distance attendue
 				int distance = Integer.parseInt(sc.nextLine().trim());
 				// chemin
