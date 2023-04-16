@@ -9,12 +9,12 @@ public class GrapheHHAdj extends Graphe{
 	private Map<String, Map<String, Integer>> hhadj;
 
     public GrapheHHAdj() {
-        this.hhadj = new HashMap<String, Map<String, Integer>>();
+	this.hhadj = new HashMap<String, Map<String, Integer>>();
     }
     
     public GrapheHHAdj(String str) {
-    	this();
-    	peupler(str);
+	this();
+	peupler(str);
     }
     
     @Override
@@ -30,16 +30,16 @@ public class GrapheHHAdj extends Graphe{
         if (contientArc(source, destination))
             throw new IllegalArgumentException("L'arc est deja present");
         if (!contientSommet(source))
-        	ajouterSommet(source);
+            ajouterSommet(source);
         if (!contientSommet(destination))
-        	ajouterSommet(destination);
+    	    ajouterSommet(destination);
         hhadj.get(source).put(destination, valeur);
     }
 
     @Override
     public void oterSommet(String sommet) {
         if (contientSommet(sommet)) {
-        	for(String S : getSommets())
+            for(String S : getSommets())
                 if(hhadj.get(S).containsKey(sommet))
                     hhadj.get(S).remove(sommet);
             hhadj.remove(sommet);
@@ -49,7 +49,7 @@ public class GrapheHHAdj extends Graphe{
     @Override
     public void oterArc(String source, String destination) {
     	if (!contientArc(source, destination))
-        	throw new IllegalArgumentException("n'existe pas");
+            throw new IllegalArgumentException("n'existe pas");
         hhadj.get(source).remove(destination);
     }
 
@@ -66,7 +66,7 @@ public class GrapheHHAdj extends Graphe{
     @Override
     public int getValuation(String src, String dest) {
         if (!contientSommet(src) || !contientSommet(dest))
-        	throw new IllegalArgumentException("n'existe pas");
+            throw new IllegalArgumentException("n'existe pas");
         return (contientArc(src, dest))? hhadj.get(src).get(dest) : -1;
     }
 
