@@ -57,7 +57,7 @@ public class GrapheLAdj extends Graphe {
         return new ArrayList<String>(ladj.keySet());
     }
     
-	@Override
+    @Override
     public List<String> getSucc(String sommet) {
     	List<String> succ = new ArrayList<String>();
     	if (contientSommet(sommet))
