@@ -40,9 +40,6 @@ public class Main {
 					System.out.println("Impossible de reset le graphe");
 				}
 
-				if (!file1.toFile().toString().equals("graphes\\full\\g-101-1.txt"))
-					continue;
-
 				Arc arc = GraphImporter.importer(file1.toFile(), g);
 				/*
 				 * List<Integer> listeEntiers = new ArrayList<>();
